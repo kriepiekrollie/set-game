@@ -1,0 +1,129 @@
+html {
+    height : 100vh;
+}
+body {
+    height : 100vh;
+    width : 100vw;
+    background-color : #2E3440;
+    margin : 0;
+    padding : 0;
+}
+
+/* --- Board Class --- */
+
+/* TODO : Add functionality for mobile devices.
+ * this would include making the board flexbox have flex-direction : row,
+ * and also making the cards have variable size as a function of screen size.
+ */
+
+.board {
+    display : flex;
+    flex-direction : column;
+    flex-wrap : wrap;
+    justify-content : center;
+    align-content : center;
+
+    height : 100vh;
+    width : 100vw;
+}
+
+/* --- Card Class --- */
+.card {
+    flex : 0 0 280px;
+
+    margin : 15px;
+    width : 210px;
+    height : 280px;
+    border-radius : 15px;
+
+    background-color : #D8DEE9;
+
+    box-shadow : 3px 3px 6px rgba(0, 0, 0, .9);
+    transition: all .2s ease-in-out;
+
+    display : flex;
+    flex-direction : column;
+    flex-wrap : wrap;
+    justify-content : center;
+    align-content : center;
+}
+.card:hover {
+    box-shadow : 10px 10px 20px rgba(0, 0, 0, .9);
+    transform : translate3d(0px, -6px, 0px);
+}
+.card:active {
+    box-shadow : 5px 5px 10px rgba(0, 0, 0, .9);
+    transform : translate3d(0px, -3px, 0px);
+}
+
+/* --- Shape Classes --- */
+.oval {
+    margin : 10px;
+    flex : 0 0 58px;
+    width : 105px;
+    height : 58px;
+    border-radius: 30px; 
+    /* background-color : #BF616A; */
+}
+
+.rhombus {
+    margin : 3px;
+    flex : 0 0 75px;
+    width : 75px;
+    height : 75px;
+    transform: rotate(-22.5deg) skewX(45deg) scaleY(cos(45deg));
+    /* background-color : #BF616A; */
+}
+.Red {
+    background-color : #BF616A;
+    border-color : #BF616A;
+}
+.Green {
+    background-color : #A3BE8C;
+    border-color : #A3BE8C;
+}
+.Blue {
+    background-color : #81A1C1;
+    border-color : #81A1C1;
+}
+.empty {
+    background-color : transparent;
+    border-style:solid;
+}
+.half {
+    mask-image: repeating-linear-gradient(-50deg, black, black 4px, transparent 4px, transparent 9px);
+}
+.full {
+    border-style : none;
+}
+
+.squiggle {
+    margin : 10px;
+    flex : 0 0 58px;
+    width : 105px;
+    height : 58px;
+    border-style : none;
+    background-color : transparent;
+    background-repeat : no-repeat;
+    background-position : center;
+    background-size : contain;
+}
+
+.squiggle.Red.full, .squiggle.Red.half {
+    background-image : url('data:image/svg+xml,﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 6" fill="%23BF616A"><path d="M 0.4376 3.507 Q 0.7862 -1.195 6.6762 0.5975 Q 9.6212 1.4938 10.6392 1.3028 Q 11.6572 1.1118 12.7405 0.0391 Q 13.7367 0.1419 13.5624 2.493 Q 13.2138 7.195 7.3238 5.4025 Q 4.3788 4.5062 3.3608 4.6972 Q 2.3428 4.8882 1.2595 5.9609 Q 0.2633 5.8581 0.4376 3.507 Z"></path></svg>');
+}
+.squiggle.Red.empty {
+    background-image : url('data:image/svg+xml,﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 6" stroke="%23BF616A" stroke-width="0.25" fill="%23D8DEE9"><path d="M 0.4376 3.507 Q 0.7862 -1.195 6.6762 0.5975 Q 9.6212 1.4938 10.6392 1.3028 Q 11.6572 1.1118 12.7405 0.0391 Q 13.7367 0.1419 13.5624 2.493 Q 13.2138 7.195 7.3238 5.4025 Q 4.3788 4.5062 3.3608 4.6972 Q 2.3428 4.8882 1.2595 5.9609 Q 0.2633 5.8581 0.4376 3.507 Z"></path></svg>');
+}
+.squiggle.Green.full, .squiggle.Green.half {
+    background-image : url('data:image/svg+xml,﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 6" fill="%23A3BE8C"><path d="M 0.4376 3.507 Q 0.7862 -1.195 6.6762 0.5975 Q 9.6212 1.4938 10.6392 1.3028 Q 11.6572 1.1118 12.7405 0.0391 Q 13.7367 0.1419 13.5624 2.493 Q 13.2138 7.195 7.3238 5.4025 Q 4.3788 4.5062 3.3608 4.6972 Q 2.3428 4.8882 1.2595 5.9609 Q 0.2633 5.8581 0.4376 3.507 Z"></path></svg>');
+}
+.squiggle.Green.empty {
+    background-image : url('data:image/svg+xml,﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 6" stroke="%23A3BE8C" stroke-width="0.25" fill="%23D8DEE9"><path d="M 0.4376 3.507 Q 0.7862 -1.195 6.6762 0.5975 Q 9.6212 1.4938 10.6392 1.3028 Q 11.6572 1.1118 12.7405 0.0391 Q 13.7367 0.1419 13.5624 2.493 Q 13.2138 7.195 7.3238 5.4025 Q 4.3788 4.5062 3.3608 4.6972 Q 2.3428 4.8882 1.2595 5.9609 Q 0.2633 5.8581 0.4376 3.507 Z"></path></svg>');
+}
+.squiggle.Blue.full, .squiggle.Blue.half {
+    background-image : url('data:image/svg+xml,﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 6" fill="%2381A1C1"><path d="M 0.4376 3.507 Q 0.7862 -1.195 6.6762 0.5975 Q 9.6212 1.4938 10.6392 1.3028 Q 11.6572 1.1118 12.7405 0.0391 Q 13.7367 0.1419 13.5624 2.493 Q 13.2138 7.195 7.3238 5.4025 Q 4.3788 4.5062 3.3608 4.6972 Q 2.3428 4.8882 1.2595 5.9609 Q 0.2633 5.8581 0.4376 3.507 Z"></path></svg>');
+}
+.squiggle.Blue.empty {
+    background-image : url('data:image/svg+xml,﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 6" stroke="%2381A1C1" stroke-width="0.25" fill="%23D8DEE9"><path d="M 0.4376 3.507 Q 0.7862 -1.195 6.6762 0.5975 Q 9.6212 1.4938 10.6392 1.3028 Q 11.6572 1.1118 12.7405 0.0391 Q 13.7367 0.1419 13.5624 2.493 Q 13.2138 7.195 7.3238 5.4025 Q 4.3788 4.5062 3.3608 4.6972 Q 2.3428 4.8882 1.2595 5.9609 Q 0.2633 5.8581 0.4376 3.507 Z"></path></svg>');
+}
