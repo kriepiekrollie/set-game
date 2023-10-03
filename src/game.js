@@ -82,6 +82,7 @@ function add_card(card_obj) {
         );
         card.append(shape);
     }
+
     card.addEventListener('click', function (event) {
         const idx = selected.indexOf(card_obj);
         if (idx == -1) {
