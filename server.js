@@ -5,10 +5,7 @@ const host = 'localhost';
 const port = 8000;
 
 const requestListener = function (req, res) {
-    const file_name = req.url;
-    if (file_name == "/") {
-        file_name = "/index.html";
-    }
+    const file_name = (req.url == "/") ? "/index.html" : req.url;
     fs.readFile(__dirname + "/src" + file_name).then(
         contents => {
             a = file_name.split('.');

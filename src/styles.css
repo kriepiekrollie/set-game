@@ -92,6 +92,7 @@ body {
 }
 .half {
     mask-image: repeating-linear-gradient(-50deg, black, black 4px, transparent 4px, transparent 9px);
+    -webkit-mask-image: -webkit-repeating-linear-gradient(-50deg, black, black 4px, transparent 4px, transparent 9px);
 }
 .full {
     border-style : none;
