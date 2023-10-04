@@ -141,17 +141,16 @@ function rem_card(idx) {
 
 const shuffle_array = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random(i + 1));
+        const j = Math.floor(Math.random() * (i + 1));
         [array[i], array[j]] = [array[j], array[i]];
     }
 }
 
+nxt = 0
 deck = [];
 for (let i = 0; i < 81; i++)
     deck.push(i);
 
 shuffle_array(deck);
-console.log(deck);
 
-nxt = 0
 add_cards_until_set();
