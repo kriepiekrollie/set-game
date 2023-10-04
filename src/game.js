@@ -154,3 +154,18 @@ for (let i = 0; i < 81; i++)
 shuffle_array(deck);
 
 add_cards_until_set();
+
+function showSet() {
+    for (let i = 0; i < num_cards_on_board - 2; i++) {
+        for (let j = i + 1; j < num_cards_on_board - 1; j++) {
+            for (let k = j + 1; k < num_cards_on_board; k++) {
+                if (is_set(cards[i], cards[j], cards[k])) {
+                    cards[i].element.setAttribute("style", "order : " + cards[i].order + "; box-shadow : 10px 10px 20px rgba(0, 0, 0, .9);transform : translate3d(0px, -6px, 0px);");
+                    cards[j].element.setAttribute("style", "order : " + cards[j].order + "; box-shadow : 10px 10px 20px rgba(0, 0, 0, .9);transform : translate3d(0px, -6px, 0px);");
+                    cards[k].element.setAttribute("style", "order : " + cards[k].order + "; box-shadow : 10px 10px 20px rgba(0, 0, 0, .9);transform : translate3d(0px, -6px, 0px);");
+                    return;
+                }
+            }
+        }
+    }
+}

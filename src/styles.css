@@ -10,10 +10,67 @@ body {
     scrollbar-width : none;
     -ms-overflow-style : none;
     overflow-y : none;
+    color : white;
 }
 
 body::-webkit-scrollbar {
     display : none;
+}
+
+.menu {
+    display : flex;
+    flex-direction : column;
+    flex-wrap : wrap;
+    justify-content : center;
+    align-content : center;
+
+    height : 100vh;
+    width : 100vw;
+}
+
+.menu a {
+    text-decoration : none;
+}
+
+.menu-option {
+    background-color : #D8DEE9;
+    text-align : center;
+    flex : 0 0 20vh;
+    height : 10vh;
+    line-height : 10vh;
+    margin : 2vh;
+    width : 30vw;
+    border-radius : 5vh;
+}
+
+.menu-option p {
+    font-size : 4vh;
+    color : black;
+}
+
+.codeblock {
+    font-size : 10px;
+    line-height : 10px;
+    font-family : monospace;
+}
+
+.help-button {
+    position : absolute;
+    top : 0;
+    right : 0;
+    margin : 20px;
+    width : 60px;
+    height : 60px;
+    background-color : #D8DEE9;
+    border-radius : 30px;
+}
+
+.help-button p {
+    cursor : default;
+    text-align : center;
+    color : #2E3440;
+    margin : 0 10px;
+    font-size : 50px;
 }
 
 /* --- Board Class --- */
