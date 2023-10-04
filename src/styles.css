@@ -142,7 +142,7 @@ body::-webkit-scrollbar {
     }
     .card {
         flex : 0 0 27vw;
-        margin : 10px;
+        margin : 2vw;
         width : 24vw;
         height : 32vw;
         border-radius : 8px;
