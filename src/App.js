@@ -11,12 +11,14 @@ function Card({shape, color, number, shading, order, selected, highlighted, onCa
     )
   );
   let styles = {order: order};
+  if (highlighted) {
+    styles.transform = "translate(0px, -8px) rotate(4deg)";
+    styles.boxShadow = "15px 15px 30px rgba(0, 0, 0, 1)";
+  }
   if (selected) {
     styles.backgroundColor = "#FFFFFF";
-  }
-  if (highlighted) {
-    styles.transform = "translate(0px, -10px)";
-    styles.boxShadow = "10px 10px 20px rgba(0, 0, 0, .9)";
+    styles.transform = "translate(0px, -6px) rotate(1deg)";
+    styles.boxShadow = "0 0 15px rgba(255, 255, 255, .9)";
   }
   return (
     <div className="card" onClick={onCardClick} style={styles}> {shape_elements} </div>
