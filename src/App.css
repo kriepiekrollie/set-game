@@ -61,6 +61,7 @@ body::-webkit-scrollbar {
     margin : 3vh;
     width : 8vh;
     height : 8vh;
+    box-shadow : 3px 3px 6px rgba(0, 0, 0, .9);
     background-color : #D8DEE9;
     border-radius : 4vh;
 }
@@ -89,6 +90,28 @@ body::-webkit-scrollbar {
 
     height : 100vh;
     width : 100vw;
+}
+
+.gameover-popup {
+  position: absolute;
+  z-index : 10;
+  top: 30vh;
+  left: 10vw;
+  border-radius: 2vh;
+  background-color: #FFFFFF;
+  box-shadow : 5px 5px 20px rgba(0, 0, 0, .6);
+  width: 80vw;
+  text-align: center;
+  color: black;
+}
+
+.gameover-popup h1 {
+  margin : 3vw 0 0 0;
+  font-size: 2em;
+}
+.gameover-popup p {
+  margin : 3vw 0 3vw 0;
+  font-size: 1em;
 }
 
 /* --- Card Class --- */
@@ -202,7 +225,7 @@ body::-webkit-scrollbar {
         margin : 2vw;
         width : 24vw;
         height : 32vw;
-        border-radius : 8px;
+        border-radius : 2vw;
         flex-direction : 
     }
     .oval {

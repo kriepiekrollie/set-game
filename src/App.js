@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import "./App.css"
 
-function Card({shape, color, number, shading, order, selected, onCardClick}) {
+function Card({shape, color, number, shading, order, selected, highlighted, onCardClick}) {
   const shape_elements = Array(number + 1).fill(0).map(
     (_, index) => (
       <div 
@@ -10,7 +10,14 @@ function Card({shape, color, number, shading, order, selected, onCardClick}) {
       ></div>
     )
   );
-  const styles = (selected ? {backgroundColor : "#FFFFFF", order:order} : {order:order});
+  let styles = {order: order};
+  if (selected) {
+    styles.backgroundColor = "#FFFFFF";
+  }
+  if (highlighted) {
+    styles.transform = "translate(0px, -10px)";
+    styles.boxShadow = "10px 10px 20px rgba(0, 0, 0, .9)";
+  }
   return (
     <div className="card" onClick={onCardClick} style={styles}> {shape_elements} </div>
   );
@@ -24,6 +31,9 @@ function shuffle_array(array) {
 }
 
 function is_set(c1, c2, c3) {
+  if (c1 === null || c2 === null || c3 === null) {
+    return false;
+  }
   const colors = new Set([c1.color, c2.color, c3.color]);
   const shapes = new Set([c1.shape, c2.shape, c3.shape]);
   const numbers = new Set([c1.number, c2.number, c3.number]);
@@ -61,7 +71,7 @@ function int_to_card(x) {
   const numb = x % 3;
   x = Math.floor(x / 3);
   const shad = x % 3;
-  return {color : colo, shape : shap, number : numb, shading : shad, order : 0};
+  return {color : colo, shape : shap, number : numb, shading : shad};
 }
 
 function generate_deck() {
@@ -74,6 +84,7 @@ function generate_deck() {
 const deck = generate_deck();
 
 function randrange(lo, hi) {
+  // Returns a random integer in the range [lo, hi).
   return Math.floor(Math.random() * (hi - lo)) + lo;
 }
 
@@ -81,31 +92,38 @@ function App() {
   const [cards, setCards] = useState([]);
   const [nxt, setNxt] = useState(0);
   const [selected, setSelected] = useState(new Set());
-  const [orders, setOrders] = useState(new Set());
+  const [highlight, setHighlight] = useState(new Set());
+  const [gameover, setGameover] = useState(false);
 
   function addUntilSet() {
     let newNxt = nxt;
-    let newCards = cards;
-    let newOrders = orders;
+    let newCards = cards.slice();
 
     for (; newNxt < 81 && (newCards.length < 12 || no_sets(newCards)); newNxt++) {
       let card = int_to_card(deck[newNxt]);
-      card.order = mex(newOrders);
-      newOrders.add(card.order);
       newCards.push(card);
     }
 
+    for (let i = cards.length; i < newCards.length; i++) {
+      const j = randrange(i, newCards.length);
+      [newCards[i], newCards[j]] = [newCards[j], newCards[i]];
+    }
+
     setCards(newCards);
-    setOrders(newOrders);
     setNxt(newNxt);
   }
 
   if (no_sets(cards)) {
-    addUntilSet();
+    if (nxt < 81) {
+      addUntilSet();
+    } else if (!gameover) {
+      setGameover(true);
+    }
   }
 
   function handleCardClick(idx) {
     let newSelected = new Set(selected);
+
     if (newSelected.has(idx)) {
       newSelected.delete(idx);
     } else {
@@ -121,37 +139,38 @@ function App() {
         if (b > c) {[b, c] = [c, b];}
 
         let newNxt = nxt;
-        let newOrders = new Set(orders);
         let newCards = cards.slice();
+        let newIndices = [];
 
-        if (newNxt < 81 && newCards[c].order < 12) {
-          const Order = newCards[c].order;
-          newCards[c] = int_to_card(deck[newNxt]);
-          newCards[c].order = Order;
+        newCards.splice(c, 1);
+        newCards.splice(b, 1);
+        newCards.splice(a, 1);
+
+        for (let i of [a, b, c]) {
+          if (!(newNxt < 81 && (newCards.length < 12 || no_sets(newCards)))) {
+            break;
+          }
+          const card = int_to_card(deck[newNxt]);
+          newCards.splice(i, 0, card);
+          newIndices.push(i);
           newNxt++;
-        } else {
-          newCards.splice(c, 1);
         }
 
-        if (newNxt < 81 && newCards[b].order < 12) {
-          const Order = newCards[b].order;
-          newCards[b] = int_to_card(deck[newNxt]);
-          newCards[b].order = Order;
-          newNxt++;
-        } else {
-          newCards.splice(b, 1);
+        for (; newNxt < 81 && (newCards.length < 12 || no_sets(newCards)); newNxt++) {
+          const card = int_to_card(deck[newNxt]);
+          newIndices.push(newCards.length);
+          newCards.push(card);
         }
 
-        if (newNxt < 81 && newCards[a].order < 12) {
-          const Order = newCards[a].order;
-          newCards[a] = int_to_card(deck[newNxt]);
-          newCards[a].order = Order;
-          newNxt++;
-        } else {
-          newCards.splice(a, 1);
+        // we want to permute the new cards randomly.
+        for (let i = 0; i < newIndices.length; i++) {
+          const j = randrange(i, newIndices.length);
+          const x = newIndices[i];
+          const y = newIndices[j];
+          [newCards[x], newCards[y]] = [newCards[y], newCards[x]];
         }
 
-        setOrders(newOrders);
+        setHighlight(new Set());
         setCards(newCards);
         setNxt(newNxt);
 
@@ -164,6 +183,23 @@ function App() {
     setSelected(newSelected);
   }
 
+  function showSet() {
+    for (let i = 0; i < cards.length - 2; i++) {
+      for (let j = i + 1; j < cards.length - 1; j++) {
+        for (let k = j + 1; k < cards.length; k++) {
+          if (is_set(cards[i], cards[j], cards[k])) {
+            let newHighlight = new Set();
+            newHighlight.add(i);
+            newHighlight.add(j);
+            newHighlight.add(k);
+            setHighlight(newHighlight);
+            return;
+          }
+        }
+      }
+    }
+  }
+
   const card_elements = cards.map(
     (card, index) => {
       return (
@@ -173,8 +209,9 @@ function App() {
           color={card.color} 
           number={card.number} 
           shading={card.shading} 
-          order={card.order}
+          order={index}
           selected={selected.has(index)}
+          highlighted={highlight.has(index)}
           onCardClick={() => handleCardClick(index)}
         />
       );
@@ -182,10 +219,18 @@ function App() {
   );
   return (
     <div className="board"> 
-      {card_elements} 
-      <div className="help-button">
+
+      <div className="help-button" onClick={showSet}>
         <p> ? </p>
       </div>
+
+      {card_elements} 
+
+      <div className="gameover-popup" style={gameover ? {} : {display : "none"}}>
+        <h1> You found all the sets! </h1>
+        <p> Refresh the page to play again :) </p>
+      </div>
+
     </div>
   );
 }
